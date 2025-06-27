@@ -1,0 +1,837 @@
+/* === INICIO DEL ARCHIVO PRINCIPAL.CSS === */
+/* Estilos generales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    font-size: 24px;
+}
+
+/* Sección superior */
+.top-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.left-panel {
+    display: flex;
+    align-items: center;
+}
+
+.equipment-image {
+    width: 66px;
+    height: 66px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.equipment-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.selectors-grid {
+    display: flex;
+    gap: 10px;
+}
+
+.selector-column {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.selector-column select {
+    padding: 5px;
+    width: 200px;
+    margin-bottom: 5px;
+}
+
+.right-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.right-panel button {
+    padding: 5px;
+    cursor: pointer;
+    width: 150px;
+}
+
+/* Botón CSV móvil */
+.mobile-csv-toggle-container {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 200;
+}
+
+#csv-menu-toggle {
+    width: 40px;
+    height: 40px;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.file-icon {
+    width: 20px;
+    height: 24px;
+    background-color: white;
+    position: relative;
+    border-radius: 2px;
+}
+
+.file-icon::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 6px;
+    height: 6px;
+    background-color: #4CAF50;
+    clip-path: polygon(0 0, 100% 100%, 0 100%);
+}
+
+.file-icon::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 3px;
+    right: 3px;
+    height: 2px;
+    background-color: #4CAF50;
+    border-radius: 1px;
+    box-shadow: 0 4px 0 #4CAF50, 0 8px 0 #4CAF50;
+}
+
+/* Menú CSV móvil */
+.mobile-csv-menu {
+    display: none;
+    position: fixed;
+    top: 60px;
+    right: 10px;
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    z-index: 150;
+    padding: 10px;
+    border-radius: 8px;
+    min-width: 150px;
+}
+
+.mobile-csv-menu.visible {
+    display: block;
+}
+
+.mobile-csv-menu button {
+    display: block;
+    width: 100%;
+    margin: 5px 0;
+    padding: 8px 12px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.mobile-csv-menu button:hover {
+    background-color: #e0e0e0;
+}
+
+/* Pestañas */
+.tabs-container {
+    margin-bottom: 10px;
+}
+
+.tab-buttons {
+    display: flex;
+    border-bottom: 2px solid #ccc;
+    gap: 2px;
+}
+
+.tab-button {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-bottom: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px 5px 0 0;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.tab-button:hover {
+    background-color: #e0e0e0;
+}
+
+.tab-button.active {
+    background-color: white;
+    border-bottom: 2px solid white;
+    font-weight: bold;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.conversion-description {
+    background-color: #f9f9f9;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.conversion-description p {
+    margin: 0;
+    font-size: 14px;
+    color: #555;
+}
+
+/* Estilos para la tabla de arte */
+#arte-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#arte-table th,
+#arte-table td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+#arte-table td {
+    vertical-align: middle;
+}
+
+#arte-table img {
+    max-width: 50px;
+    max-height: 50px;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Botones inferiores */
+.bottom-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.use-button {
+    padding: 10px 30px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.use-button:hover {
+    background-color: #45a049;
+}
+
+.gallery-button {
+    width: 50px;
+    height: 50px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.gallery-button:hover {
+    background-color: #0069d9;
+    transform: scale(1.05);
+}
+
+.gallery-icon {
+    width: 24px;
+    height: 20px;
+    background-color: white;
+    position: relative;
+    border-radius: 2px;
+}
+
+.gallery-icon::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 8px;
+    height: 8px;
+    background-color: #007bff;
+    border-radius: 50%;
+}
+
+.gallery-icon::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 2px;
+    right: 2px;
+    height: 8px;
+    background: linear-gradient(45deg, #007bff 25%, transparent 25%, transparent 75%, #007bff 75%),
+    linear-gradient(45deg, #007bff 25%, transparent 25%, transparent 75%, #007bff 75%);
+    background-size: 4px 4px;
+    background-position: 0 0, 2px 2px;
+    border-radius: 1px;
+}
+
+/* === ESTILOS PARA SELECTORES INFERIORES === */
+.bottom-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: center;
+    align-items: center; /* Centrado vertical */
+}
+
+.material-selector {
+    width: 120px;
+    border: 1px solid #808080;
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: background-color 0.3s ease;
+    background-color: #f0f0f0;
+    min-height: 160px; /* Altura consistente */
+    justify-content: space-between; /* Distribución del espacio */
+}
+
+.material-selector img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    margin-bottom: 5px;
+}
+
+.material-selector select {
+    width: 100%;
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: white;
+}
+
+/* Nuevo selector base */
+.base-selector {
+    width: 120px;
+    border: 1px solid #808080;
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #e0e0e0;
+    margin: 0 10px;
+    transition: background-color 0.3s ease;
+    min-height: 160px; /* Altura consistente */
+    justify-content: space-between; /* Distribución del espacio */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra para destacar */
+}
+
+.base-title {
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #333;
+    font-size: 14px;
+    text-align: center;
+}
+
+.base-selector select {
+    width: 100%;
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: white;
+}
+
+/* === ESTILOS PARA EL SELECTOR BASE MEJORADO === */
+/* Contenedor base mejorado */
+.base-selector {
+    text-align: center; /* Centrado de texto */
+}
+
+/* Título centrado */
+.base-title {
+    text-align: center; /* Asegura que el texto esté centrado */
+    width: 100%; /* Ocupa todo el ancho */
+}
+
+/* Contenedor dinámico centrado */
+.base-dynamic-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centrado horizontal */
+    width: 100%;
+}
+
+/* Imagen de equipo en base - centrada */
+.base-equipo-img {
+    max-width: 60px;
+    max-height: 60px;
+    display: block;
+    margin: 0 auto 10px; /* Centrado y margen inferior */
+    object-fit: contain;
+}
+
+/* Selector de color centrado */
+.base-selector select {
+    text-align: center; /* Texto centrado en el select */
+}
+
+/* === AJUSTES ESPECÍFICOS PARA CAMPEÓN === */
+/* Solo aplica cuando la clase es Campeón */
+.base-selector.campeon-base {
+    background-color: #e6f7ff; /* Fondo azul claro para destacar */
+    border: 2px solid #1890ff; /* Borde azul */
+}
+
+.base-selector.campeon-base .base-title {
+    color: #1890ff; /* Color azul para el título */
+    font-weight: bold;
+}
+
+/* === ESTILOS PARA IMÁGENES CENTRADAS === */
+.centered-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.centered-image {
+    display: block;
+    margin: 0 auto;
+}
+
+.centered-text {
+    text-align: center;
+    margin-top: 5px;
+}
+
+/* Botón flotante de agregar imagen */
+.floating-add-button {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.floating-add-button:hover {
+    background-color: #218838;
+    transform: scale(1.1);
+}
+
+.plus-icon {
+    font-size: 28px;
+    line-height: 1;
+}
+
+/* Modales (estilos básicos) */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    position: relative;
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 0;
+    width: 80%;
+    max-width: 800px;
+    max-height: 80vh;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.close {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: black;
+}
+
+.modal-body {
+    padding: 10px;
+    overflow-y: auto;
+    max-height: calc(80vh - 100px);
+    position: relative;
+}
+
+.modal-footer {
+    padding: 15px;
+    text-align: center;
+    border-top: 1px solid #eee;
+    background-color: #f8f8f8;
+}
+
+/* === ESTILOS TOAST === */
+#toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 10px;
+}
+
+.toast {
+    min-width: 250px;
+    background-color: #333;
+    color: white;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    overflow: hidden;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.3s ease;
+    max-width: 350px;
+    display: none; /* Oculto inicialmente */
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(0);
+    display: block; /* Visible cuando tiene la clase show */
+}
+
+.toast-header {
+    padding: 10px 15px;
+    background-color: rgba(0,0,0,0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.toast-title {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.toast-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+.toast-body {
+    padding: 15px;
+    font-size: 14px;
+}
+
+/* Tipos de toast */
+.toast-success {
+    background-color: #4CAF50;
+}
+
+.toast-error {
+    background-color: #f44336;
+}
+
+.toast-info {
+    background-color: #2196F3;
+}
+
+.toast-warning {
+    background-color: #ff9800;
+}
+
+/* === ESTILOS RESPONSIVOS === */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    header h1 {
+        font-size: 20px;
+    }
+
+    .top-section {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .left-panel {
+        margin-bottom: 15px;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .equipment-image {
+        width: 66px;
+        height: 66px;
+        margin-right: 15px;
+    }
+
+    .selectors-grid {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .selector-column {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 5px;
+    }
+
+    .selector-column select {
+        width: 120px;
+        font-size: 14px;
+        margin-bottom: 0;
+    }
+
+    .right-panel {
+        width: 100%;
+        align-items: center;
+    }
+
+    .right-panel button {
+        width: 150px;
+        font-size: 14px;
+    }
+
+    /* Botón de galería en móvil */
+    .gallery-button {
+        width: 40px;
+        height: 40px;
+    }
+
+    .gallery-icon {
+        width: 20px;
+        height: 16px;
+    }
+
+    /* Cambiar visibilidad de botones en móvil */
+    .mobile-only {
+        display: flex;
+    }
+
+    .desktop-only {
+        display: none;
+    }
+
+    /* Pestañas en móvil */
+    .tab-buttons {
+        flex-wrap: wrap;
+    }
+
+    .tab-button {
+        padding: 8px 10px;
+        font-size: 12px;
+        flex-grow: 1;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    th, td {
+        padding: 3px;
+        font-size: 14px;
+    }
+
+    .material-cell img {
+        width: 20px;
+        height: 20px;
+    }
+
+    /* Ajuste para móvil: line-height y font-size del texto del material */
+    .material-cell span {
+        font-size: 13px;
+        line-height: 20px;
+    }
+
+    .color-input {
+        padding: 3px 0;
+        font-size: 14px;
+    }
+
+    .bottom-section {
+        gap: 5px;
+    }
+
+    .material-selector, .base-selector {
+        width: 100px;
+        min-height: 140px;
+    }
+
+    .material-selector img, .base-selector img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .use-button {
+        padding: 8px 20px;
+        font-size: 14px;
+    }
+
+    .modal-content {
+        width: 90%;
+        margin: 5% auto;
+    }
+
+    .modal-header h2, .modal-header h3 {
+        font-size: 16px;
+    }
+
+    .close {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 5px;
+    }
+
+    header h1 {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .equipment-image {
+        width: 66px;
+        height: 66px;
+        margin-right: 15px;
+    }
+
+    .selectors select {
+        width: 120px;
+        font-size: 12px;
+    }
+
+    .right-panel button {
+        width: 120px;
+        font-size: 12px;
+        padding: 4px;
+    }
+
+    .materials-table {
+        padding: 5px;
+    }
+
+    th, td {
+        padding: 2px;
+        font-size: 12px;
+    }
+
+    .material-cell img {
+        width: 16px;
+        height: 16px;
+    }
+
+    .material-cell span {
+        font-size: 11px;
+        line-height: 16px;
+    }
+
+    .material-selector, .base-selector {
+        width: 90px;
+        min-height: 130px;
+    }
+
+    .material-selector img, .base-selector img {
+        width: 70px;
+        height: 70px;
+    }
+
+    .use-button {
+        padding: 6px 15px;
+        font-size: 12px;
+    }
+}
+#install-banner > div:last-child {
+    display: flex;
+    gap: 32px; /* Espacio entre elementos */
+}
+/* === FIN DEL ARCHIVO PRINCIPAL.CSS === */

@@ -1,0 +1,224 @@
+/* Tabla de materiales */
+.materials-table {
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: white;
+    overflow-x: auto;
+}
+
+table img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px;
+}
+
+td {
+    padding: 5px;
+    vertical-align: middle;
+}
+
+.material-cell {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.material-cell img {
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+    flex-shrink: 0;
+    display: block;
+}
+
+.material-cell span {
+    font-size: 14px;
+    line-height: 26px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-grow: 1;
+}
+
+/* Estilos para tablas */
+#materials-table table,
+.tab-content table,
+.conversion-legend-table {
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#materials-table th,
+#materials-table td,
+.tab-content th,
+.tab-content td,
+.conversion-legend-table th,
+.conversion-legend-table td {
+    padding: 8px;
+    box-sizing: border-box;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    border: 1px solid #ccc;
+}
+
+#materials-table th:nth-child(1),
+#materials-table td:nth-child(1),
+.tab-content th:nth-child(1),
+.tab-content td:nth-child(1),
+.conversion-legend-table th:nth-child(1),
+.conversion-legend-table td:nth-child(1) {
+    width: 8%;
+    text-align: center;
+}
+
+#materials-table th:nth-child(n+3),
+#materials-table td:nth-child(n+3),
+.tab-content th:nth-child(n+3),
+.tab-content td:nth-child(n+3) {
+    width: 14.4%;
+    text-align: center;
+}
+
+.conversion-legend-table th:nth-child(1),
+.conversion-legend-table td:nth-child(1) {
+    width: 20%;
+    text-align: left;
+}
+
+.conversion-legend-table th:nth-child(n+2),
+.conversion-legend-table td:nth-child(n+2) {
+    width: 16%;
+    text-align: center;
+}
+
+.color-input {
+    width: 100%;
+    text-align: center;
+    padding: 5px 0;
+    border: 2px solid;
+}
+
+.color-input[data-color="dorado"] {
+    border-color: #FFD700;
+}
+
+.color-input[data-color="morado"] {
+    border-color: #DDA0DD;
+}
+
+.color-input[data-color="azul"] {
+    border-color: #ADD8E6;
+}
+
+.color-input[data-color="verde"] {
+    border-color: #90EE90;
+}
+
+.color-input[data-color="blanco"] {
+    border-color: #000;
+}
+
+/* Selectores de color de material */
+.bottom-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: center;
+}
+
+.material-selector {
+    width: 120px;
+    border: 1px solid #808080;
+    border-radius: 5px;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+.material-selector img {
+    width: 100px;
+    height: 100px;
+    background-color: transparent !important;
+    object-fit: contain;
+}
+
+.material-selector select {
+    width: 100%;
+    margin-top: 5px;
+}
+
+/* === NUEVOS ESTILOS PARA TABLA ARTE === */
+#arte-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#arte-table th,
+#arte-table td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: center; /* Centrado de todo el contenido */
+}
+
+#arte-table td {
+    vertical-align: middle;
+}
+
+#arte-table img {
+    max-width: 50px;
+    max-height: 50px;
+    display: block;
+    margin: 0 auto; /* Centrado de imágenes */
+}
+
+#arte-table td img {
+    width: 24px !important;
+    height: 24px !important;
+    display: block;
+    margin: 0 auto;
+}
+
+#arte-table th:last-child,
+#arte-table td:last-child {
+    width: 32px;
+    text-align: center;
+}
+
+/* === ESTILOS PARA TABLAS DE CONVERSIÓN === */
+.conversion-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.conversion-table th,
+.conversion-table td {
+    padding: 8px;
+    text-align: center; /* Centrado de contenido */
+    border: 1px solid #ddd;
+}
+
+.conversion-table img {
+    max-width: 40px;
+    max-height: 40px;
+    display: block;
+    margin: 0 auto; /* Centrado de imágenes */
+}

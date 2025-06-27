@@ -1,0 +1,29 @@
+Clase,Equipo,Material,Dorado,Morado,Azul,Verde,Blanco
+Normal,Espada,Maxilar,2,1,1,123,50
+Normal,Espada,Garra,0,0,1,118,58
+Normal,Espada,Hoja,1,1,6,15,75
+Normal,Espada,Césped,0,2,15,22,59
+Normal,Botas,Nudo,0,0,7,441,57
+Normal,Botas,Acero,0,1,1,508,27
+Normal,Botas,Pluma,0,1,1,26,61
+Normal,Botas,Extraer,0,1,1,22,64
+Normal,Guantes,Diente de sierra,0,1,9,214,32
+Normal,Guantes,Pelaje,0,3,3,138,52
+Normal,Guantes,Cristal,0,0,2,20,29
+Normal,Guantes,Stardust,0,4,7,70,41
+Campeón,Espada,Quijada ácida,4,4,13,757,523
+Campeón,Espada,Oro talon,3,10,14,811,574
+Campeón,Espada,Hoja de jade,5,8,24,667,587
+Campeón,Espada,Ámbar hierba,5,6,21,722,515
+Campeón,Botas,Carbonizado gnarl,0,2,2,111,0
+Campeón,Botas,Acero reforzado,0,1,12,155,0
+Campeón,Botas,Pluma Stick,0,1,3,122,0
+Campeón,Botas,Extracto destilado,0,1,9,103,0
+Campeón,Guantes,Razor diente de sierra,0,3,5,87,0
+Campeón,Guantes,Piel de terciopelo,1,0,7,99,0
+Campeón,Guantes,Crystal mystic,0,0,7,96,0
+Campeón,Guantes,Tempest Stardust,0,1,5,77,0
+Lord,common,Voluntad del emperador,1,1,12,00,0
+Lord,common,Guardia del emperador,0,3,49,0,0
+Lord,common,Alma del emperador,0,1,12,0,0
+Lord,common,Aliento del emperador,0,1,7,0,0

@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de Materiales</title>
+
+    <!-- PWA Essentials -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4CAF50">
+
+    <!-- Iconos PWA -->
+    <link rel="icon" href="images/icon-192.png" sizes="192x192">
+    <link rel="apple-touch-icon" href="images/icon-192.png">
+
+    <!-- Hojas de estilo -->
+    <link rel="stylesheet" href="estilos/principal.css">
+    <link rel="stylesheet" href="estilos/tablas.css">
+    <link rel="stylesheet" href="estilos/modales.css">
+    <link rel="stylesheet" href="estilos/galeria.css">
+    <link rel="stylesheet" href="estilos/responsive.css">
+
+    <style>
+        /* === ESTILOS PWA ADICIONALES === */
+        #install-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #333;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        #install-banner.show {
+            transform: translateY(0);
+        }
+
+        #install-button {
+            background-color: #4CAF50;
+            color: white;
+            font-size: 20px;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #close-install {
+            background: #f69a6a;
+            border: none;
+            color: #0c0c0c;
+            font-size: 20px;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .offline-message {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #ff9800;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            z-index: 1001;
+            display: none;
+        }
+
+        /* Nuevos estilos para tabla ARTE */
+        #arte-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #arte-table th,
+        #arte-table td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        #arte-table td {
+            vertical-align: middle;
+        }
+
+        #arte-table img {
+            max-width: 50px;
+            max-height: 50px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* === ESTILOS TOAST === */
+        #toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column-reverse;
+            gap: 10px;
+        }
+
+        .toast {
+            min-width: 250px;
+            background-color: #333;
+            color: white;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            overflow: hidden;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.3s ease;
+            max-width: 350px;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .toast-header {
+            padding: 10px 15px;
+            background-color: rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .toast-title {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .toast-body {
+            padding: 15px;
+            font-size: 14px;
+        }
+
+        /* Tipos de toast */
+        .toast-success {
+            background-color: #4CAF50;
+        }
+
+        .toast-error {
+            background-color: #f44336;
+        }
+
+        .toast-info {
+            background-color: #2196F3;
+        }
+
+        .toast-warning {
+            background-color: #ff9800;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Mensaje Offline -->
+    <div class="offline-message" id="offline-message">
+        Estás trabajando en modo offline. Los cambios se guardarán localmente.
+    </div>
+
+    <!-- Banner de instalación PWA -->
+    <div id="install-banner">
+        <div>
+            <strong>Instalar Gestor de Materiales</strong>
+            <p>Para una mejor experiencia, instala esta aplicación en tu dispositivo</p>
+        </div>
+        <div>
+            <button id="close-install">X</button>
+            <button id="install-button">Instalar</button>
+        </div>
+    </div>
+
+    <!-- Botón CSV móvil -->
+    <div class="mobile-csv-toggle-container">
+        <button id="csv-menu-toggle" class="mobile-only">
+            <i class="file-icon"></i>
+        </button>
+    </div>
+
+    <!-- Menú CSV móvil -->
+    <div class="mobile-csv-menu" id="mobile-csv-menu">
+        <button id="mobile-export-csv">Exportar CSV</button>
+        <button id="mobile-import-csv">Importar CSV</button>
+    </div>
+
+    <header>
+        <h1>Gestor de Materiales y Creación de Equipos</h1>
+    </header>
+
+    <div class="top-section">
+        <div class="left-panel">
+            <div class="equipment-image">
+                <img id="equipment-img" src="images/botas.png" alt="Equipo" onerror="this.style.display='none'">
+            </div>
+
+            <div class="selectors-grid">
+                <div class="selector-column">
+                    <select id="equipment-select">
+                        <option value="Espada">Espada</option>
+                        <option value="Pecho">Pecho</option>
+                        <option value="Botas">Botas</option>
+                        <option value="Casco">Casco</option>
+                        <option value="Guantes">Guantes</option>
+                        <option value="Cinturón">Cinturón</option>
+                    </select>
+
+                    <!-- SELECTOR DE CLASE ACTUALIZADO -->
+                    <select id="class-select">
+                        <option value="Normal">Normal</option>
+                        <option value="Campeón">Campeón</option>
+                        <option value="Planewalker">Planewalker</option>
+                        <option value="Lord">Lord</option>
+                        <option value="Noble Lord">Noble Lord</option>
+                    </select>
+                </div>
+
+                <div class="selector-column">
+                    <select id="level-select">
+                        <option value="1">Nivel 1</option>
+                        <option value="2">Nivel 2</option>
+                        <option value="3">Nivel 3</option>
+                        <option value="4">Nivel 4</option>
+                        <option value="5">Nivel 5</option>
+                    </select>
+
+                    <select id="color-select">
+                        <option value="blanco">Blanco</option>
+                        <option value="verde">Verde</option>
+                        <option value="azul">Azul</option>
+                        <option value="morado">Morado</option>
+                        <option value="dorado">Dorado</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <!-- Botones originales para escritorio -->
+            <button id="export-csv" class="desktop-only">Exportar CSV</button>
+            <button id="import-csv" class="desktop-only">Importar CSV</button>
+            <input type="file" id="csv-file" accept=".csv" style="display: none;">
+            <button id="show-materials">Mostrar Materiales</button>
+        </div>
+    </div>
+
+    <!-- Pestañas de conversión -->
+    <div class="tabs-container">
+        <div class="tab-buttons">
+            <button class="tab-button active" data-tab="materials">Materiales</button>
+            <button class="tab-button" data-tab="conversion1">>> Verde</button>
+            <button class="tab-button" data-tab="conversion2">>> Azul</button>
+            <button class="tab-button" data-tab="conversion3">>> Morado</button>
+            <button class="tab-button" data-tab="conversionfinal">>> Dorado</button>
+            <button class="tab-button conversion-legend-tab" data-tab="conversionlegend" title="Leyenda de Conversión">
+                <i class="info-icon"></i>
+            </button>
+            <!-- NUEVA PESTAÑA ARTE -->
+            <button class="tab-button" data-tab="arte">ARTE</button>
+        </div>
+    </div>
+
+    <!-- Contenido de las pestañas -->
+    <div class="tab-content active" id="materials-tab">
+        <div class="materials-table" id="materials-table">
+            <!-- Tabla de materiales se generará dinámicamente -->
+        </div>
+    </div>
+
+    <div class="tab-content" id="conversion1-tab">
+        <div class="materials-table" id="conversion1-table">
+            <!-- Tabla de conversión 1 se generará dinámicamente -->
+        </div>
+    </div>
+
+    <div class="tab-content" id="conversion2-tab">
+        <div class="materials-table" id="conversion2-table">
+            <!-- Tabla de conversión 2 se generará dinámicamente -->
+        </div>
+    </div>
+
+    <div class="tab-content" id="conversion3-tab">
+        <div class="materials-table" id="conversion3-table">
+            <!-- Tabla de conversión 3 se generará dinámicamente -->
+        </div>
+    </div>
+
+    <div class="tab-content" id="conversionfinal-tab">
+        <div class="materials-table" id="conversionfinal-table">
+            <!-- Tabla de conversión final se generará dinámicamente -->
+        </div>
+    </div>
+
+    <div class="tab-content" id="conversionlegend-tab">
+        <div class="conversion-description">
+            <p><strong>Tabla de Conversión de Materiales:</strong></p>
+        </div>
+        <div class="materials-table" id="conversionlegend-table">
+            <table class="conversion-legend-table">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Blanco</th>
+                    <th>Verde</th>
+                    <th>Azul</th>
+                    <th>Morado</th>
+                    <th>Dorado</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th>Dorado</th>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <th>Morado</th>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <th>Azul</th>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>4</td>
+                    <td>16</td>
+                </tr>
+                <tr>
+                    <th>Verde</th>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>4</td>
+                    <td>16</td>
+                    <td>64</td>
+                </tr>
+                <tr>
+                    <th>Blanco</th>
+                    <td>1</td>
+                    <td>4</td>
+                    <td>16</td>
+                    <td>64</td>
+                    <td>256</td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="conversion-notes">
+                <p><strong>Equivalencias:</strong></p>
+                <ul>
+                    <li>4 Blancos = 1 Verde</li>
+                    <li>4 Verdes = 1 Azul</li>
+                    <li>4 Azules = 1 Morado</li>
+                    <li>4 Morados = 1 Dorado</li>
+                    <li>16 Blancos = 1 Azul</li>
+                    <li>16 Verdes = 1 Morado</li>
+                    <li>16 Azules = 1 Dorado</li>
+                    <li>64 Blancos = 1 Morado</li>
+                    <li>64 Verdes = 1 Dorado</li>
+                    <li>256 Blancos = 1 Dorado</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- NUEVA PESTAÑA ARTE -->
+    <div class="tab-content" id="arte-tab">
+        <div class="materials-table" id="arte-table">
+            <!-- La tabla de equipos simulados se generará dinámicamente aquí -->
+        </div>
+    </div>
+
+    <div class="bottom-section" id="bottom-section">
+        <!-- Selectores de color por material se generarán dinámicamente -->
+    </div>
+
+    <div class="bottom-buttons">
+        <button id="gallery-button" class="gallery-button">
+            <i class="gallery-icon"></i>
+        </button>
+        <button id="use-materials" class="use-button">USAR</button>
+    </div>
+
+    <!-- Modal para galería de imágenes -->
+    <div id="gallery-modal" class="modal">
+        <div class="modal-content gallery-modal-content">
+            <div class="modal-header">
+                <h2>Galería de Imágenes</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="gallery-container" class="gallery-container">
+                    <!-- Las imágenes se cargarán dinámicamente aquí -->
+                </div>
+                <button id="add-image-button" class="floating-add-button" title="Agregar Imagen">
+                    <span class="plus-icon">+</span>
+                </button>
+                <input type="file" id="gallery-file-input" accept="image/*" style="display: none;">
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para carrusel de imágenes -->
+    <div id="carousel-modal" class="modal">
+        <div class="modal-content carousel-modal-content">
+            <div class="carousel-container">
+                <button class="carousel-nav prev" id="carousel-prev">‹</button>
+                <div class="carousel-image-container">
+                    <img id="carousel-image" src="" alt="Imagen actual">
+                </div>
+                <button class="carousel-nav next" id="carousel-next">›</button>
+            </div>
+            <div class="carousel-info">
+                <span id="carousel-counter">1 / 1</span>
+                <button class="carousel-close" id="carousel-close">×</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para lista completa de materiales -->
+    <div id="materials-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Lista Completa de Materiales</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="all-materials-table">
+                    <!-- Tabla completa se generará dinámicamente -->
+                </div>
+            </div>
+            <!-- Botón Volver -->
+            <div class="modal-footer">
+                <button id="materials-back-button" class="back-button">Volver</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenedor para notificaciones tipo toast -->
+    <div id="toast-container">
+        <!-- Plantilla para toasts (oculta por defecto) -->
+        <div class="toast" id="toast-template" style="display: none;">
+            <div class="toast-header">
+                <strong class="toast-title"></strong>
+                <button type="button" class="toast-close">&times;</button>
+            </div>
+            <div class="toast-body"></div>
+        </div>
+    </div>
+</div>
+
+<!-- === SCRIPTS === -->
+<script type="module" src="scripts/app.js"></script>
+
+<script>
+    // ===== [1] REGISTRO DEL SERVICE WORKER =====
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('sw.js')
+                .then(registration => {
+                    console.log('Service Worker registrado con éxito:', registration.scope);
+                })
+                .catch(error => {
+                    console.log('Error al registrar ServiceWorker:', error);
+                });
+        });
+    }
+
+    // ===== [2] DETECCIÓN DE CONEXIÓN =====
+    function updateOnlineStatus() {
+        const offlineMessage = document.getElementById('offline-message');
+        if (offlineMessage) {
+            if (!navigator.onLine) {
+                offlineMessage.style.display = 'block';
+            } else {
+                offlineMessage.style.display = 'none';
+            }
+        }
+    }
+
+    window.addEventListener('online', updateOnlineStatus);
+    window.addEventListener('offline', updateOnlineStatus);
+    updateOnlineStatus(); // Comprobar estado inicial
+
+    // ===== [3] INSTALACIÓN DE PWA =====
+    let deferredPrompt;
+    const installBanner = document.getElementById('install-banner');
+    const installButton = document.getElementById('install-button');
+    const closeInstall = document.getElementById('close-install');
+
+    if (installBanner && installButton && closeInstall) {
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevenir que el banner automático aparezca
+            e.preventDefault();
+            // Guardar el evento para usarlo luego
+            deferredPrompt = e;
+            // Mostrar nuestro banner personalizado después de 5 segundos
+            setTimeout(() => {
+                if (installBanner) installBanner.classList.add('show');
+            }, 5000);
+        });
+
+        installButton.addEventListener('click', () => {
+            if (!deferredPrompt) return;
+            // Ocultar nuestro banner
+            installBanner.classList.remove('show');
+            // Mostrar el prompt de instalación
+            deferredPrompt.prompt();
+            // Esperar a que el usuario responda
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('Usuario instaló la PWA');
+                } else {
+                    console.log('Usuario rechazó la instalación');
+                }
+                deferredPrompt = null;
+            });
+        });
+
+        closeInstall.addEventListener('click', () => {
+            installBanner.classList.remove('show');
+        });
+    }
+</script>
+</body>
+</html>
